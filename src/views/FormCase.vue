@@ -1,67 +1,121 @@
 <template>
   <div>
-    FormCase Content
-    <h2>{{formMode}}</h2>
+    <h1>form-model:{{formConf.formProp.model}}</h1>
     <c-form
-      :mode.sync="formMode"
-      :items="formItems"
-    >
-    </c-form>
+      v-bind:model.sync="formConf.formProp.model"
+      v-bind:formProp="formConf.formProp"
+      v-bind:fildes="formConf.fildes"
+      v-on="formConf.formEvents"
+    ></c-form>
   </div>
 </template>
 <script>
 export default {
   name: "FormCase",
+  components: {
+    CForm: () => import("@/components/Form/CForm.js")
+  },
   data() {
     return {
-      formMode: {
-        name: ""
-      },
-      formItems: [
-        {
-          formItemProp: {
-            label: "姓名",
-            prop: "name"
-          },
-          type: "el-input",
-          attrs: {
-            placeholder: "请输入姓名",
-            disabled: false,
-            clearable: false,
-            "show-password": false
-          },
-          events: {
-            change(val) {
-              alert(val);
-            }
+      formConf: {
+        formProp: {
+          model: {}, //必要参数
+          "label-width": "100px"
+          // inline: true
+        },
+        formEvents: {
+          validate(propVal) {
+            this.$message("propVal:" + propVal);
           }
         },
-        {
-          formItemProp: {
-            label: "蛋糕类型",
-            prop: "cakeType"
-          },
-          type: "el-select",
-          attrs: {
-            placeholder: "请选择类型"
-          },
-          events: {},
+        fildes: [
+          {
+            _layout_: {
+              // row:{
 
-          components: [
-            {
-              type: "el-option",
-              attrs: {
-                placeholder: "请选择类型"
+              // },
+              col: {
+                span: 12
+              }
+            },
+            attributes: {
+              label: "年龄",
+              prop: "age" //必要参数
+            },
+            // slots: {
+            //   label(h) {}
+            // },
+            child: {
+              _tag_: "el-input",
+              _model_: "age",
+              attributes: {
+                value: "10岁",
+                clearable: true
               },
-              events: {}
+              slots: {
+                prepend(h, data) {
+                  return <div> 44444</div>;
+                }
+              },
+              events: {
+                // change(val) {
+                //   alert("el-input-change:" + val);
+                // }
+              }
             }
-          ]
-        }
-      ]
+          },
+        //   {
+        //     _layout_: {
+        //       // row:{
+
+        //       // },
+        //       col: {
+        //         span: 12
+        //       }
+        //     },
+        //     attributes: {
+        //       label: "类型"
+        //       //   prop: "type" //必要参数
+        //     },
+        //     // slots: {
+        //     //   label(h) {}
+        //     // },
+        //     child: {
+        //       _tag_: "el-select",
+        //       _model_: "type",
+        //       attributes: {
+        //         value: "选项2",
+        //         disabled: false,
+        //         multiple: true
+        //       },
+        //       style: "background:red;",
+        //       slots: {},
+        //       events: {},
+        //       option: {
+        //         _list_: [
+        //           {
+        //             value: "选项1",
+        //             label: "黄金糕",
+        //             disabled: true
+        //           },
+        //           {
+        //             value: "选项2",
+        //             label: "双皮奶"
+        //           },
+        //           {
+        //             value: "选项3",
+        //             label: "油条"
+        //           }
+        //         ],
+        //         attributes: {
+        //           //   label
+        //         }
+        //       }
+        //     }
+        //   }
+        ]
+      }
     };
-  },
-  components: {
-    CForm: () => import("../components/CForm")
   }
 };
 </script>
